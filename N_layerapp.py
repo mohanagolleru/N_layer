@@ -199,7 +199,7 @@ form_template = """
         <div class="main-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center mb-0">Model Configuration</h2>
+                    <h2 class="text-center mb-0">N-layer Model Configuration</h2>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -230,11 +230,11 @@ form_template = """
                                         <span id="C_bar_init_value" class="slider-value">0</span>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-block">Generate Model</button>
+                                <button type="submit" class="btn btn-primary btn-block">Solve</button>
                             </form>
                         </div>
                         <div class="col-md-6">
-                            <h4 class="text-center mb-4"><i class="fas fa-sitemap"></i> Game Tree </h4>
+                            <h4 class="text-center mb-4"><i class="fas fa-sitemap"></i> Game Tree Visualization</h4>
                             <img src="{{ url_for('static', filename='image.png') }}" alt="Model Configuration Image" class="img-fluid rounded shadow">
                             <div id="model-description" class="model-description mt-4">
                                 <p>The Probabilistic model is designed to analyze systems facing non-strategic attackers, providing insights into multi-layered security dynamics.</p>
@@ -500,18 +500,16 @@ results_template = """
         <div class="main-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center mb-0">Model Results</h2>
+                    <h2 class="text-center mb-0">N-layer Model Results</h2>
                 </div>
                 <div class="card-body">
                     <div class="row mt-4">
                         <div class="col-12">
-                            <h4 class="text-center"><i class="fas fa-layer-group"></i> Layer-Specific Configuration</h4>
+                            <h4><i class="fas fa-layer-group"></i> Layer-Specific Configuration</h4>
                             {% if layer_image %}
-                                <div class="text-center">
-                                    <img src="{{ url_for('static', filename=layer_image) }}" alt="Layer Configuration" class="img-fluid rounded mx-auto d-block">
-                                </div>
+                                <img src="{{ url_for('static', filename=layer_image) }}" alt="Layer Configuration" class="img-fluid rounded shadow-sm">
                             {% else %}
-                                <p class="text-center">No specific layer configuration image available for {{ total_layers }} layers.</p>
+                                <p>No specific layer configuration image available for {{ total_layers }} layers.</p>
                             {% endif %}
                         </div>
                     </div>
@@ -690,9 +688,6 @@ about_template = """
             border-radius: 15px 15px 0 0;
             padding: 20px;
         }
-        .card-header h2 {
-            color: #FFFFFF;  /* Changed to white */
-        }
         .card-body {
             padding: 30px;
         }
@@ -812,12 +807,9 @@ contact_template = """
         }
         .card-header {
             background-color: var(--primary-color);
-            color: #FFFFFF;
+            color: #fff;
             border-radius: 15px 15px 0 0;
             padding: 20px;
-        }
-        .card-header h2 {
-            color: #FFFFFF;  
         }
         .card-body {
             padding: 30px;
@@ -1102,9 +1094,6 @@ def contact():
 def results():
     return index()
 
-
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    app.run(debug=True, port=5000)
 
-#if __name__ == "__main__":
-#    app.run(debug=True, port=5000)
