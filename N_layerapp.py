@@ -19,118 +19,187 @@ app.logger.setLevel(logging.INFO)
 
 form_template = """
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>N-layer Model</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #000000;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --card-background: #ffffff;
+        }
         body {
-            background-color: #f8f9fa;
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
         .navbar {
-            background-color: #007bff;
-            color: #fff;
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
         }
-        .navbar-brand {
-            color: #fff;
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            transition: opacity 0.3s ease;
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            opacity: 0.8;
+        }
+        .nav-item.active .nav-link {
             font-weight: bold;
-        }
-        .container-fluid {
-            display: flex;
-            height: 100vh;
-        }
-        .sidebar {
-            min-width: 250px;
-            max-width: 250px;
-            background-color: #343a40;
-            padding: 20px;
-            color: #fff;
-        }
-        .sidebar .nav-link {
-            color: #fff;
-            font-weight: bold;
-            padding: 10px 15px;
-            margin: 5px 0;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
+            border-bottom: 2px solid #fff;
         }
         .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
+            padding: 40px 0;
         }
         .card {
+            background-color: var(--card-background);
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
         .card-header {
-            background-color: #007bff;
+            background-color: var(--primary-color);
             color: #fff;
-            border-radius: 10px 10px 0 0;
+            border-radius: 15px 15px 0 0;
             padding: 20px;
-            text-align: center;
         }
         .card-body {
             padding: 30px;
         }
+        .card-body h4 i {
+            color: #000000;
+            margin-right: 10px;
+        }
         .form-group label {
-            font-weight: bold;
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
         }
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: bold;
         }
         .btn-primary:hover {
-            background-color: #0069d9;
-            border-color: #0062cc;
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: scale(1.05);
         }
         .model-description {
             margin-top: 20px;
             text-align: center;
             font-size: 16px;
-            color: #6c757d;
+            color: var(--secondary-color);
         }
-        .form-check-input:checked ~ .form-check-label::before {
-            background-color: #007bff;
+        .slider-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        .footer {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px;
-            position: fixed;
+        .slider {
+            -webkit-appearance: none;
             width: 100%;
-            bottom: 0;
+            height: 8px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+            margin-right: 15px;
+        }
+        .slider:hover {
+            opacity: 1;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+        }
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+        }
+        .slider::-webkit-slider-thumb:hover,
+        .slider::-moz-range-thumb:hover {
+            background-color: #0056b3;
+            box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .slider:active::-webkit-slider-thumb,
+        .slider:active::-moz-range-thumb {
+            background-color: #004085;
+        }
+        .slider-value {
+            min-width: 50px;
             text-align: center;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 18px;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .custom-control-input:checked ~ .custom-control-label::before {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">N-layer Model</a>
-    </nav>
-    <div class="container-fluid">
-        <div class="sidebar">
-            <nav class="nav flex-column">
-                <a class="nav-link" href="/">Model</a>
-                <a class="nav-link" href="/about">About</a>
-                <a class="nav-link" href="/contact">Contact</a>
-            </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">N-layer Model</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Model</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
+
+    <div class="container">
         <div class="main-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center mb-0">Configuration</h2>
+                    <h2 class="text-center mb-0">Model Configuration</h2>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -138,31 +207,37 @@ form_template = """
                             <form action="/results" method="post">
                                 <div class="form-group">
                                     <label>Model Type:</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="model_type" id="prob" value="prob" checked>
-                                        <label class="form-check-label" for="prob">Probabilistic Model</label>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="prob" name="model_type" class="custom-control-input" value="prob" checked>
+                                        <label class="custom-control-label" for="prob">Probabilistic Model</label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="model_type" id="stra" value="stra">
-                                        <label class="form-check-label" for="stra">Strategic Model</label>
+                                    <div class="custom-control custom-radio mt-2">
+                                        <input type="radio" id="stra" name="model_type" class="custom-control-input" value="stra">
+                                        <label class="custom-control-label" for="stra">Strategic Model</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="total_layers">Total Layers:</label>
-                                    <input type="number" class="form-control" name="total_layers" id="total_layers" required>
+                                    <div class="slider-container">
+                                        <input type="range" class="slider" name="total_layers" id="total_layers" min="1" max="50" value="1" required>
+                                        <span id="total_layers_value" class="slider-value">1</span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="C_bar_init">Cost:</label>
-                                    <input type="number" class="form-control" name="C_bar_init" id="C_bar_init" required>
+                                    <div class="slider-container">
+                                        <input type="range" class="slider" name="C_bar_init" id="C_bar_init" min="0" max="500" step="5" value="0" required>
+                                        <span id="C_bar_init_value" class="slider-value">0</span>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-block">Generate Model</button>
                             </form>
                         </div>
                         <div class="col-md-6">
-                            <h4 class="text-center"><i class="fas fa-sitemap"></i> Game Tree</h4>
-                            <img src="{{ url_for('static', filename='image.png') }}" alt="Model Configuration Image" class="img-fluid rounded">
-                            <div id="model-description" class="model-description">
-                                Probabilistic model is to model Non-Strategic Attackers.
+                            <h4 class="text-center mb-4"><i class="fas fa-sitemap"></i> Game Tree </h4>
+                            <img src="{{ url_for('static', filename='image.png') }}" alt="Model Configuration Image" class="img-fluid rounded shadow">
+                            <div id="model-description" class="model-description mt-4">
+                                <p>The Probabilistic model is designed to analyze systems facing non-strategic attackers, providing insights into multi-layered security dynamics.</p>
                             </div>
                         </div>
                     </div>
@@ -170,173 +245,312 @@ form_template = """
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function updateSliderValue(sliderId, valueId) {
+            const slider = document.getElementById(sliderId);
+            const output = document.getElementById(valueId);
+            output.innerHTML = slider.value;
+            slider.oninput = function() {
+                output.innerHTML = this.value;
+                updateSliderBackground(sliderId);
+            }
+        }
+
+        function updateSliderBackground(sliderId) {
+            const slider = document.getElementById(sliderId);
+            const percentage = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+            slider.style.background = `linear-gradient(to right, var(--primary-color) 0%, var(--primary-color) ${percentage}%, #d3d3d3 ${percentage}%, #d3d3d3 100%)`;
+        }
+
+        updateSliderValue('total_layers', 'total_layers_value');
+        updateSliderValue('C_bar_init', 'C_bar_init_value');
+
+        // Initial call to set the background on page load
+        updateSliderBackground('total_layers');
+        updateSliderBackground('C_bar_init');
+
+        // Update model description based on selected model type
+        const modelTypeInputs = document.querySelectorAll('input[name="model_type"]');
+        const modelDescription = document.getElementById('model-description');
+
+        modelTypeInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.value === 'prob') {
+                    modelDescription.innerHTML = '<p>The Probabilistic model is designed to analyze systems facing non-strategic attackers, providing insights into multi-layered security dynamics.</p>';
+                } else {
+                    modelDescription.innerHTML = '<p>The Strategic model is tailored for systems dealing with strategic attackers, incorporating game-theoretic concepts to model complex security interactions.</p>';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 """
 
-results_template = """
 
+results_template = """
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>N-layer App Results</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-layer Model Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #000000;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --card-background: #ffffff;
+        }
         body {
-            background-color: #f8f9fa;
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
         .navbar {
-            background-color: #007bff;
-            color: #fff;
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
         }
-        .navbar-brand {
-            color: #fff;
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            transition: opacity 0.3s ease;
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            opacity: 0.8;
+        }
+        .nav-item.active .nav-link {
             font-weight: bold;
-        }
-        .container-fluid {
-            display: flex;
-            height: 100vh;
-        }
-        .sidebar {
-            min-width: 250px;
-            max-width: 250px;
-            background-color: #343a40;
-            padding: 20px;
-            color: #fff;
-        }
-        .sidebar .nav-link {
-            color: #fff;
-            font-weight: bold;
-            padding: 10px 15px;
-            margin: 5px 0;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
+            border-bottom: 2px solid #fff;
         }
         .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
+            padding: 40px 0;
         }
         .card {
+            background-color: var(--card-background);
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 30px;
         }
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
         .card-header {
-            background-color: #007bff;
+            background-color: var(--primary-color);
             color: #fff;
-            border-radius: 10px 10px 0 0;
+            border-radius: 15px 15px 0 0;
             padding: 20px;
-            text-align: center;
         }
         .card-body {
             padding: 30px;
         }
+        .card-body h4 i {
+            color: #000000;
+            margin-right: 10px;
+        }
         .form-group label {
-            font-weight: bold;
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
         }
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: bold;
         }
         .btn-primary:hover {
-            background-color: #0069d9;
-            border-color: #0062cc;
-        }
-        .table {
-            margin-bottom: 0;
-        }
-        .table thead th {
-            background-color: #f8f9fa;
-            border-top: none;
-        }
-        .table td, .table th {
-            vertical-align: middle;
-        }
-        .plot-container {
-            margin-top: 30px;
-            width: 105%;
-            height: 400px;
-            overflow: hidden;
-        }
-        .plot-container img {
-            max-width: 100%;
-            height: auto;
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: scale(1.05);
         }
         .model-description {
             margin-top: 20px;
             text-align: center;
             font-size: 16px;
-            color: #6c757d;
+            color: var(--secondary-color);
         }
-        .footer {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px;
-            position: fixed;
+        .slider-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .slider {
+            -webkit-appearance: none;
             width: 100%;
-            bottom: 0;
+            height: 8px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+            margin-right: 15px;
+        }
+        .slider:hover {
+            opacity: 1;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+        }
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+        }
+        .slider::-webkit-slider-thumb:hover,
+        .slider::-moz-range-thumb:hover {
+            background-color: #0056b3;
+            box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .slider:active::-webkit-slider-thumb,
+        .slider:active::-moz-range-thumb {
+            background-color: #004085;
+        }
+        .slider-value {
+            min-width: 50px;
             text-align: center;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 18px;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .custom-control-input:checked ~ .custom-control-label::before {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .table {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .table thead th {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-top: none;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0,0,0,.03);
+        }
+        .plot-container {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .plot-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">N-layer Model</a>
-    </nav>
-    <div class="container-fluid">
-        <div class="sidebar">
-            <nav class="nav flex-column">
-                <a class="nav-link" href="/">Model</a>
-                <a class="nav-link" href="/about">About</a>
-                <a class="nav-link" href="/contact">Contact</a>
-            </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">N-layer Model</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Model</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
+
+    <div class="container">
         <div class="main-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center mb-0">N-layer Model Results</h2>
+                    <h2 class="text-center mb-0">Model Results</h2>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h4 class="text-center"><i class="fas fa-layer-group"></i> Layer-Specific Configuration</h4>
+                            {% if layer_image %}
+                                <div class="text-center">
+                                    <img src="{{ url_for('static', filename=layer_image) }}" alt="Layer Configuration" class="img-fluid rounded mx-auto d-block">
+                                </div>
+                            {% else %}
+                                <p class="text-center">No specific layer configuration image available for {{ total_layers }} layers.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
                         <div class="col-md-6">
                             <h4><i class="fas fa-cog"></i> Configuration</h4>
                             <form action="/results" method="post">
                                 <div class="form-group">
                                     <label>Model Type:</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="model_type" id="prob" value="prob" {% if model_type == 'prob' %}checked{% endif %}>
-                                        <label class="form-check-label" for="prob">Probabilistic Model</label>
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" type="radio" name="model_type" id="prob" value="prob" {% if model_type == 'prob' %}checked{% endif %}>
+                                        <label class="custom-control-label" for="prob">Probabilistic Model</label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="model_type" id="stra" value="stra" {% if model_type == 'stra' %}checked{% endif %}>
-                                        <label class="form-check-label" for="stra">Strategic Model</label>
+                                    <div class="custom-control custom-radio mt-2">
+                                        <input class="custom-control-input" type="radio" name="model_type" id="stra" value="stra" {% if model_type == 'stra' %}checked{% endif %}>
+                                        <label class="custom-control-label" for="stra">Strategic Model</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="total_layers">Total Layers:</label>
-                                    <input type="number" class="form-control" name="total_layers" id="total_layers" value="{{ total_layers }}" required>
+                                    <div class="slider-container">
+                                        <input type="range" class="slider" name="total_layers" id="total_layers" min="1" max="50" value="{{ total_layers }}" required>
+                                        <span id="total_layers_value" class="slider-value">{{ total_layers }}</span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="C_bar_init">Cost:</label>
-                                    <input type="number" class="form-control" name="C_bar_init" id="C_bar_init" value="{{ C_bar_init }}" required>
+                                    <div class="slider-container">
+                                        <input type="range" class="slider" name="C_bar_init" id="C_bar_init" min="0" max="500" step="5" value="{{ C_bar_init }}" required>
+                                        <span id="C_bar_init_value" class="slider-value">{{ C_bar_init }}</span>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="submit" class="btn btn-primary">Update Results</button>
                             </form>
                         </div>
                         <div class="col-md-6">
                             <h4><i class="fas fa-sitemap"></i> Game Tree</h4>
-                            <img src="{{ url_for('static', filename='image.png') }}" alt="Model Configuration Image" class="img-fluid rounded">
+                            <img src="{{ url_for('static', filename='image.png') }}" alt="Model Configuration Image" class="img-fluid rounded shadow-sm">
                             <div id="model-description" class="model-description">
                                 {% if model_type == 'prob' %}
                                 Probabilistic model is to model Non-Strategic Attackers.
@@ -361,7 +575,7 @@ results_template = """
                                     </tr>
                                 </tbody>
                             </table>
-                            <h5>Values:</h5>
+                            <h5 class="mt-4">Values:</h5>
                             <ul class="list-unstyled">
                                 <li><strong>s:</strong> {{ s }}</li>
                                 <li><strong>beta:</strong> {{ beta }}</li>
@@ -379,237 +593,293 @@ results_template = """
                             </div>
                         </div>
                     </div>
-                    <!-- New section for layer-specific images -->
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <h4><i class="fas fa-layer-group"></i> Layer-Specific Configuration</h4>
-                            {% if layer_image %}
-                                <img src="{{ url_for('static', filename=layer_image) }}" alt="Layer Configuration" class="img-fluid rounded">
-                            {% else %}
-                                <p>No specific layer configuration image available for {{ total_layers }} layers.</p>
-                            {% endif %}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function updateSliderValue(sliderId, valueId) {
+            const slider = document.getElementById(sliderId);
+            const output = document.getElementById(valueId);
+            output.innerHTML = slider.value;
+            slider.oninput = function() {
+                output.innerHTML = this.value;
+                updateSliderBackground(sliderId);
+            }
+        }
+
+        function updateSliderBackground(sliderId) {
+            const slider = document.getElementById(sliderId);
+            const percentage = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+            slider.style.background = `linear-gradient(to right, var(--primary-color) 0%, var(--primary-color) ${percentage}%, #d3d3d3 ${percentage}%, #d3d3d3 100%)`;
+        }
+
+        updateSliderValue('total_layers', 'total_layers_value');
+        updateSliderValue('C_bar_init', 'C_bar_init_value');
+
+        // Initial call to set the background on page load
+        updateSliderBackground('total_layers');
+        updateSliderBackground('C_bar_init');
+    </script>
 </body>
 </html>
 """
-       
 
 # About template
 
 about_template = """
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>About</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - N-layer Model</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #2c3e50;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --card-background: #ffffff;
+        }
         body {
-            background-color: #f8f9fa;
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
         .navbar {
-            background-color: #007bff;
-            color: #fff;
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
         }
-        .navbar-brand {
-            color: #fff;
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            transition: opacity 0.3s ease;
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            opacity: 0.8;
+        }
+        .nav-item.active .nav-link {
             font-weight: bold;
-        }
-        .container-fluid {
-            display: flex;
-            height: 100vh;
-        }
-        .sidebar {
-            min-width: 250px;
-            max-width: 250px;
-            background-color: #343a40;
-            padding: 20px;
-            color: #fff;
-        }
-        .sidebar .nav-link {
-            color: #fff;
-            font-weight: bold;
-            padding: 10px 15px;
-            margin: 5px 0;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
+            border-bottom: 2px solid #fff;
         }
         .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
+            padding: 40px 0;
         }
         .card {
+            background-color: var(--card-background);
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
         .card-header {
-            background-color: #007bff;
+            background-color: var(--primary-color);
             color: #fff;
-            border-radius: 10px 10px 0 0;
+            border-radius: 15px 15px 0 0;
             padding: 20px;
-            text-align: center;
+        }
+        .card-header h2 {
+            color: #FFFFFF;  /* Changed to white */
         }
         .card-body {
             padding: 30px;
         }
-        .footer {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            text-align: center;
+        h2 {
+            color: var(--primary-color);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">About</a>
-    </nav>
-    <div class="container-fluid">
-        <div class="sidebar">
-            <nav class="nav flex-column">
-                <a class="nav-link" href="/">N-layer Model</a>
-                <a class="nav-link" href="/about">About</a>
-                <a class="nav-link" href="/contact">Contact</a>
-            </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">N-layer Model</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Model</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
+
+    <div class="container">
         <div class="main-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center mb-0">About</h2>
+                    <h2 class="text-center mb-0">About the N-layer Model</h2>
                 </div>
                 <div class="card-body">
-                    <p class="text-center">About Model.</p>
+                    <p>The N-layer Model is an advanced tool for analyzing and optimizing multi-layered security systems. It provides two main types of analysis:</p>
+                    <ul>
+                        <li><strong>Probabilistic Model:</strong> This model is designed to analyze systems facing non-strategic attackers. It helps in understanding the probabilistic nature of attacks and defenses across multiple layers.</li>
+                        <li><strong>Strategic Model:</strong> This model is tailored for systems dealing with strategic attackers. It incorporates game-theoretic concepts to model the strategic interactions between defenders and attackers.</li>
+                    </ul>
+                    <p>Our model allows you to configure the number of layers and associated costs, providing a comprehensive view of optimal investment strategies across different security layers.</p>
+                    <p>Whether you're a security professional, researcher, or decision-maker, the N-layer Model offers valuable insights into creating robust, multi-layered security systems.</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
 """
 # Contact template
 
 contact_template = """
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Contact</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - N-layer Model</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #2c3e50;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --card-background: #ffffff;
+        }
         body {
-            background-color: #f8f9fa;
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
         .navbar {
-            background-color: #007bff;
-            color: #fff;
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
         }
-        .navbar-brand {
-            color: #fff;
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            transition: opacity 0.3s ease;
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            opacity: 0.8;
+        }
+        .nav-item.active .nav-link {
             font-weight: bold;
-        }
-        .container-fluid {
-            display: flex;
-            height: 100vh;
-        }
-        .sidebar {
-            min-width: 250px;
-            max-width: 250px;
-            background-color: #343a40;
-            padding: 20px;
-            color: #fff;
-        }
-        .sidebar .nav-link {
-            color: #fff;
-            font-weight: bold;
-            padding: 10px 15px;
-            margin: 5px 0;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
+            border-bottom: 2px solid #fff;
         }
         .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
+            padding: 40px 0;
         }
         .card {
+            background-color: var(--card-background);
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
         .card-header {
-            background-color: #007bff;
-            color: #fff;
-            border-radius: 10px 10px 0 0;
+            background-color: var(--primary-color);
+            color: #FFFFFF;
+            border-radius: 15px 15px 0 0;
             padding: 20px;
-            text-align: center;
+        }
+        .card-header h2 {
+            color: #FFFFFF;  
         }
         .card-body {
             padding: 30px;
         }
-        .footer {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            text-align: center;
+        h2 {
+            color: var(--primary-color);
+        }
+        .contact-info {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        .contact-info i {
+            color: var(--primary-color);
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">Contact</a>
-    </nav>
-    <div class="container-fluid">
-        <div class="sidebar">
-            <nav class="nav flex-column">
-                <a class="nav-link" href="/">N-layer Model</a>
-                <a class="nav-link" href="/about">About</a>
-                <a class="nav-link" href="/contact">Contact</a>
-            </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">N-layer Model</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Model</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
+
+    <div class="container">
         <div class="main-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center mb-0">Contact</h2>
+                    <h2 class="text-center mb-0">Contact Us</h2>
                 </div>
                 <div class="card-body">
-                    <p class="text-center">For any inquiries or feedback, please contact us at: <a href="mailto:support@nlayermodel.com">support@nlayermodel.com</a></p>
+                    <p class="text-center">For any inquiries or feedback about the N-layer Model, please don't hesitate to reach out to us.</p>
+                    <div class="contact-info text-center">
+                        <p><i class="fas fa-envelope"></i> <a href="mailto:support@nlayermodel.com">support@nlayermodel.com</a></p>
+                        <p><i class="fas fa-phone"></i> +1 (xxx) 123-4567</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 XXX, 14221 </p>
+                    </div>
+                    <p class="text-center mt-4">We appreciate your interest and will get back to you as soon as possible.</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
 """
@@ -831,6 +1101,7 @@ def contact():
 @app.route('/results', methods=['POST'])
 def results():
     return index()
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
