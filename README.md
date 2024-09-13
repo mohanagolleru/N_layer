@@ -132,7 +132,7 @@ Below are the visual representations for layers 1 to 4:
 ![Layer 2](static/layer2.png)
 
 ### Layer 3
-![Layer 3](path/to/layer3.png)
+![Layer 3](static/layer3.png)
 
 ### Layer 4
 ![Layer 4](static/layer4.png)
