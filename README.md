@@ -97,14 +97,14 @@ Displays the model type, solutions, and parameters such as `s`, `beta`, `alpha`,
    │   └── about.html         # About page template
    ├── models/                # Directory for model-related Python code
    │   ├── probabilistic.py   # Code for the probabilistic model
-   │   └── strategic.py       # Code for the strategic model (game theory)
+   │   └── strategic.py       # Code for the strategic model 
    ├── utils/                 # Utility scripts for helper functions
    │   └── visualization.py   # Helper functions for result visualization
-   ├── data/                  # Directory for storing input data or pre-configured data (if any)
+   ├── data/                  # Directory for storing input data or pre-configured data
    │   └── example_data.csv   # Example CSV file for testing
    ├── tests/                 # Directory for test scripts (optional)
    │   └── test_models.py     # Test cases for the model functionality
-   ├── README.md              # Project documentation (this file)
+   ├── README.md              # Project documentation 
    └── LICENSE                # License for the project
    ```
 
