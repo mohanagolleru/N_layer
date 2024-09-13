@@ -11,6 +11,7 @@ This repository contains the code for the N-layer model web application built wi
   - [Models and Configuration](#models-and-configuration)
   - [Result Visualization](#result-visualization)
 - [Code Structure](#code-structure)
+- [Layer Images](#layer-images)
 
 
 ---
@@ -118,3 +119,21 @@ Displays the model type, solutions, and parameters such as `s`, `beta`, `alpha`,
 - **tests/**: Contains test cases to verify the accuracy and functionality of the models and utility functions.
 
 ---
+
+
+## Layer Images
+
+Below are the visual representations for layers 1 to 4:
+
+### Layer 1
+![Layer 1](path/to/layer1.png)
+
+### Layer 2
+![Layer 2](path/to/layer2.png)
+
+### Layer 3
+![Layer 3](path/to/layer3.png)
+
+### Layer 4
+![Layer 4](path/to/layer4.png)
+
