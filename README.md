@@ -126,14 +126,17 @@ Displays the model type, solutions, and parameters such as `s`, `beta`, `alpha`,
 Below are the visual representations for layers 1 to 4:
 
 ### Layer 1
-![Layer 1](path/to/layer1.png)
+![Layer 1](layer1.png)
 
 ### Layer 2
-![Layer 2](path/to/layer2.png)
+![Layer 2](layer2.png)
 
 ### Layer 3
-![Layer 3](path/to/layer3.png)
+![Layer 3](layer3.png)
 
 ### Layer 4
-![Layer 4](path/to/layer4.png)
+![Layer 4](layer4.png)
+
+
+
 
