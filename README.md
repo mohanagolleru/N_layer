@@ -67,11 +67,13 @@ This model is designed to analyze systems that are exposed to non-strategic atta
 ## Strategic Model
 
 The strategic model involves game-theoretic concepts to model interactions between attackers and defenders. It is useful in systems where attackers behave strategically to exploit vulnerabilities in the defense system.
+
 ---
 # Result Visualization
 
 Once the model is solved, the application generates a stacked plot showing the optimal budget allocation across the configured layers. You can also view the layer-specific configuration and results in a table format.
 
+---
 ### Optimization Outputs
 
 
