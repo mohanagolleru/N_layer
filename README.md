@@ -124,7 +124,7 @@ Displays the model type, solutions, and parameters such as `s`, `beta`, `alpha`,
 ## Model Output
 
 
-![Model Output](N_layer/static/N-layer_Model_Results-1.png)
+![Model Output](N_layer/static/Model_O.png)
 
 
 
