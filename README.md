@@ -84,8 +84,7 @@ Displays the model type, solutions, and parameters such as `s`, `beta`, `alpha`,
    # Code Structure
 
    ```bash
-   .
-   ├── app.py                 # Main application file (Flask server)
+   ├── N_layerapp.py                 # Main application file (Flask server)
    ├── requirements.txt       # List of Python dependencies
    ├── static/                # Static files (images)
    │   ├── css/               # CSS files for styling
