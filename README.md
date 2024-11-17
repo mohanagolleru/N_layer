@@ -87,11 +87,10 @@ Displays the model type, solutions, and parameters such as `s`, `beta`, `alpha`,
    .
    ├── app.py                 # Main application file (Flask server)
    ├── requirements.txt       # List of Python dependencies
-   ├── static/                # Static files (e.g., CSS, images)
+   ├── static/                # Static files (images)
    │   ├── css/               # CSS files for styling
    │   │   └── styles.css     # Main stylesheet for the web application
    │   └── images/            # Image assets
-   │       └── logo.png       # Example image file
    ├── templates/             # HTML templates for Flask
    │   ├── base.html          # Base template with common HTML structure
    │   ├── index.html         # Home page template with form input
@@ -101,13 +100,8 @@ Displays the model type, solutions, and parameters such as `s`, `beta`, `alpha`,
    │   ├── probabilistic.py   # Code for the probabilistic model
    │   └── strategic.py       # Code for the strategic model 
    ├── utils/                 # Utility scripts for helper functions
-   │   └── visualization.py   # Helper functions for result visualization
-   ├── data/                  # Directory for storing input data or pre-configured data
-   │   └── example_data.csv   # Example CSV file for testing
-   ├── tests/                 # Directory for test scripts (optional)
-   │   └── test_models.py     # Test cases for the model functionality
-   ├── README.md              # Project documentation 
-   └── LICENSE                # License for the project
+   │   └── visualization.py   # Helper functions for result visualization        
+   └── README.md              # Project documentation                 
    ```
 
 - **app.py**: This file acts as the central hub of the application, defining all routes for handling form submissions, managing optimization logic, and generating results for the user.
