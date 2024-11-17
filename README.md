@@ -11,7 +11,7 @@ This repository contains the code for the N-layer model web application built wi
   - [Models and Configuration](#models-and-configuration)
   - [Result Visualization](#result-visualization)
 - [Code Structure](#code-structure)
-- [Layer Images](#layer-images)
+- [Model Output](#layer-images)
 
 
 ---
