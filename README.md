@@ -121,22 +121,12 @@ Displays the model type, solutions, and parameters such as `s`, `beta`, `alpha`,
 ---
 
 
-## Layer Images
+## Model Output
 
-Below are the visual representations for layers 1 to 4:
+Below is the representation
 
-### Layer 1
-![Layer 1](static/layer1.png)
-
-### Layer 2
-![Layer 2](static/layer2.png)
-
-### Layer 3
-![Layer 3](static/layer3.png)
-
-### Layer 4
-![Layer 4](static/layer4.png)
-
+### Model Output
+![Model Output](N-layer Model Results-1.png)
 
 
 
