@@ -1,7 +1,6 @@
 # N-layer Model Web Application - https://n-layer.uc.r.appspot.com/
 
-This repository contains the code for the N-layer model web application built with Flask. The N-layer model is a tool for analyzing and optimizing multi-layered security systems. The application provides two main types of analysis: **Probabilistic Model** and **Strategic Model**, allowing the user to configure the number of layers and associated costs.
-
+This repository contains the code for the N-layer model web application built with Flask. The N-layer model is a tool for analyzing and optimizing multi-layered security systems. The application provides two main types of analysis: **Probabilistic Model** and **Strategic Model**.
 ## Table of Contents
 
 - [Installation](#installation)
